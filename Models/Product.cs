@@ -7,12 +7,12 @@ public class Product
     [Required]
     [MaxLength(255)]
     public string NameProduct { get; set; }
-    public string Description { get; set; }
-    public string Image { get; set; }
+    public string? Description { get; set; }
+    public string? Image { get; set; }
     [Required]
     [MaxLength(30)]
     public string Unit { get; set; }
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
     [Required, Range(0, 10000)]
     public int remainingQuantity { get; set; }
 

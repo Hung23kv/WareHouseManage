@@ -10,7 +10,7 @@ public class Order
     public string StatusOrder { get; set; }
 
     [Required]
-    public string Note { get; set; }
+    public string? Note { get; set; }
 
     public virtual Supplier Suppliers { get; set; }
     public virtual ICollection<DetailOrder> DetailOrders { get; set; } = new HashSet<DetailOrder>();

@@ -5,10 +5,13 @@ public class User
     [Key]
     public int IdUser { get; set; }
     public string Name { get; set; }
-    [Required]
     public string Email { get; set; }
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }
+
+    [Required]
+    public string UserPassword { get; set; }
+    public string Image { get; set; }
 
     public virtual Role Roles { get; set; }
 

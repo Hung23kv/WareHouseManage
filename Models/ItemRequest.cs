@@ -9,6 +9,8 @@ public class ItemRequest
     [Required]
     public bool IsApproved { get; set; }
 
+    public bool IsReceive { get; set; }
+
     public virtual User Users { get; set; }
 
     public virtual ICollection<DetailRequest> DetailRequests { get; set; } = new HashSet<DetailRequest>();

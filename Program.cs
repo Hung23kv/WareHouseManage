@@ -30,6 +30,11 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+// Thêm dòng này để hỗ trợ Area
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")

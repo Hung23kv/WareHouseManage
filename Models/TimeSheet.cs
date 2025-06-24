@@ -8,7 +8,7 @@ public class TimeSheet
     public bool IsPresent { get; set; }
     [Required]
     public DateTime WorkingDate { get; set; }
-    public string Note { get; set; }
+    public string? Note { get; set; }
 
     public virtual User Users { get; set; }
 

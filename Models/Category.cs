@@ -7,6 +7,6 @@ public class Category
     [MaxLength(255)]
     public string NameCategory { get; set; }
 
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public virtual ICollection<Product> Products { get; set; } = new HashSet<Product>(); 
 }
