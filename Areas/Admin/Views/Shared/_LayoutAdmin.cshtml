@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quản trị</title>
-    <link href="~/layoutAd/assets/css/styles.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/layoutAd/assets/css/styles.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 
@@ -49,7 +49,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="~/Areas/Admin/Views/ThongKe/Index.cshtml" aria-expanded="false">
+                            <a class="sidebar-link" href="#" aria-expanded="false">
                                 <span>
                                     <i class="fa-solid fa-user-tie"></i>
                                 </span>
@@ -57,11 +57,11 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="~/Areas/Admin/Views/ThongKe/Index.cshtml" aria-expanded="false">
+                            <a class="sidebar-link" href="@Url.Action("HomeRole", "Role", new { area = "Admin" })" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
-                                <span class="hide-menu">Quản lý vai trò</span>
+                                <span class="hide-menu">Quản lý chức danh</span>
                             </a>
                         </li>
                         <li class="sidebar-item dropdown">
@@ -73,10 +73,10 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="sidebarDropdownThongKe">
                                 <li>
-                                    <a class="dropdown-item" href="~/Areas/Admin/Views/ThongKe/ThongKeNgay.cshtml">Quản lý danh mục</a>
+                                    <a class="dropdown-item" href="@Url.Action("Home", "Category", new { area = "Admin" })">Quản lý hạng mục</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="~/Areas/Admin/Views/ThongKe/ThongKeThang.cshtml">Quản lý sản phẩm</a>
+                                    <a class="dropdown-item" href="#">Quản lý sản phẩm</a>
                                 </li>
                             </ul>
                         </li>

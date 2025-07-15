@@ -1,0 +1,99 @@
+@model IEnumerable<WareHouse.Models.Category>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Category Management";
+}
+<link rel="stylesheet" href="~/css/AddCategory.css" />
+
+<div class="container-fluid">
+    <div class="card">
+        <br>
+            <p class="h3"style="text-align:center;margin-top: 5px;color:red" >QUẢN LÝ HẠNG MỤC</p>
+        <br>
+        <div class="row">
+            <div class="col-md-12" style="margin-left: 20px">
+                <button type="button" class="btn btn-success" id="ShowAddDialog">Thêm hạng mục</button>
+            </div>    
+            <div class="col-md-12" style="margin-top:20px">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align: center;">STT</th>
+                        <th scope="col">Tên hạng mục</th>
+                        <th scope="col">Mô tả</th>
+                        <th scope="col" colspan="2" >Thao tác</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                        @foreach(var (category, index) in Model.Select((item, index) => (item, index + 1))){
+                            <tr>
+                                <td style="text-align: center;">@index</td>
+                                <td>@category.NameCategory</td>
+                                <td>@category.Description</td>
+                                <td colspan="2">
+                                    <a role="button" class="btn btn-primary" href = "@Url.Action("EditCategory", "Category", new { area = "Admin",id = category.IdCategory })">Sửa</a>
+                                    <a role="button" class="btn btn-danger"  href = "javascript:del_confirm('@Url.Action("Delete", "Category", new { area = "Admin",id = category.IdCategory })','@category.NameCategory')">Xóa </a>
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<dialog id="AddCategory" class="AddDialog-Modal">
+    <form method="post" action="/Admin/Category/Add">
+        <div class="dialog-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo mới hạng mục</h5>
+                <button type="button" class="btn-close" id="CloseIcon" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="NameCategory" class="form-label">Tên Hạng Mục:</label>
+                    <input type="text" class="form-control" id="NameCategory" name="NameCategory" required>
+                </div>
+                <div class="form-group">
+                    <label for="Description" class="form-label">Mô Tả:</label>
+                    <textarea class="form-control" id="Description" name="Description"></textarea>
+                </div>
+            </div>
+            <div class="dialog-buttons">
+                <button type="submit" class="submit-btn">Thêm</button>
+            </div>
+        </div>
+    </form>
+</dialog>
+
+<script>
+    function del_confirm(strlink,NameCategory){
+        ok = confirm("Bạn có muốn xóa hạng mục '" + NameCategory + "' không ?");
+        if (ok != 0){
+            window.location.href = strlink;
+        }
+    }
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addCategoryDialog = document.getElementById("AddCategory");
+        const showAddDialogButton = document.getElementById("ShowAddDialog");
+        const CloseIconButton = document.getElementById("CloseIcon");
+
+        showAddDialogButton.addEventListener("click", function () {
+            addCategoryDialog.showModal();
+        });
+        addCategoryDialog.addEventListener("click", function (event) {
+            if (event.target === addCategoryDialog) {
+                addCategoryDialog.close();
+            }
+        });
+        CloseIconButton.addEventListener("click", function () {
+            addCategoryDialog.close();
+        });
+    });
+</script>

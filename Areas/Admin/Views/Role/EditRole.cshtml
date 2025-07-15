@@ -1,0 +1,40 @@
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Category Management";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <br>
+            <p class="h3"style="text-align:center;margin-top: 5px;color:red" >SỬA CHỨC DANH</p>
+            
+        <br>
+        <div class="row">  
+            <div class="col-md-12" style="margin-top:20px">
+                <form method="post" action="/Admin/Role/Edit/@Model.IdRole">
+                    <div class="form-group row mb-4 align-items-center">
+                        <label for="CategoryName" class="col-sm-2 col-form-label text-end">Tên chức danh:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="Name"  value="@Model.Name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4 align-items-center">
+                        <label for="Description" class="col-sm-2 col-form-label text-end">Mức lương: </label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control"  name="Salary" value="@Model.Salary"  />
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-bottom: 30px">
+                        <div class="col-12 d-flex justify-content-center gap-3">
+                            <button type="submit" class="btn btn-success px-4 py-2">Lưu</button>
+                            <a href="/Admin/Category" class="btn btn-info px-4 py-2 text-white">Quay lại</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

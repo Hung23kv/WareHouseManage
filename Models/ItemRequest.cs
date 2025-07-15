@@ -1,18 +1,17 @@
 using System.ComponentModel.DataAnnotations;
 
-public class ItemRequest
+namespace WareHouse.Models
 {
-    [Key]
-    public int idItemRequest { get; set; }
-    [Required]
-    public string Purpose { get; set; }
-    [Required]
-    public bool IsApproved { get; set; }
+    public class ItemRequest
+    {
+        [Key]
+        public int IdItemRequest { get; set; }
+        public DateTime RequestDate { get; set; }
+        public string? Status { get; set; }
+        public string? Note { get; set; }
 
-    public bool IsReceive { get; set; }
+        public virtual User Users { get; set; }
 
-    public virtual User Users { get; set; }
-
-    public virtual ICollection<DetailRequest> DetailRequests { get; set; } = new HashSet<DetailRequest>();
-
+        public virtual ICollection<DetailRequest> DetailRequests { get; set; } = new HashSet<DetailRequest>();
+    }
 }

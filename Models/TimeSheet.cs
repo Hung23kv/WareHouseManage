@@ -1,15 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 
-public class TimeSheet
+namespace WareHouse.Models
 {
-    [Key]
-    public int IdTimeSheet { get; set; }
-    [Required]
-    public bool IsPresent { get; set; }
-    [Required]
-    public DateTime WorkingDate { get; set; }
-    public string? Note { get; set; }
+    public class TimeSheet
+    {
+        [Key]
+        public int IdTimeSheet { get; set; }
+        public DateTime Date { get; set; }
+        public TimeSpan CheckIn { get; set; }
+        public TimeSpan? CheckOut { get; set; }
 
-    public virtual User Users { get; set; }
-
+        public virtual User Users { get; set; }
+    }
 }
