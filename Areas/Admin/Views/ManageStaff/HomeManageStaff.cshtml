@@ -1,0 +1,190 @@
+@model IEnumerable<WareHouse.Models.User>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Quản lý nhân sự";
+}
+
+<link rel="stylesheet" href="~/css/AddCategory.css" />
+
+<div class="container-fluid">
+    <div class="card">
+        <br>
+            <p class="h3" style="text-align:center;margin-top: 5px;color:red">QUẢN LÝ NHÂN VIÊN</p>
+            @if (TempData["SuccessMessage"] != null)
+                {
+                    <script>
+                        alert(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"])));
+                    </script>
+                }
+        <br>
+        <div class="row">
+            <div class="col-md-12" style="margin-left: 20px">
+                <button type="button" class="btn btn-success" id="ShowAddDialog">Thêm mới</button>
+            </div>    
+            <form method="post" action="/Admin/ManageStaff/EditAll">
+                <div class="col-md-12" style="margin-top:20px">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align: center;">STT</th>
+                        <th scope="col">Tên nhân viên</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Chức danh</th>
+                        <th scope="col" colspan="2" >Thao tác</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                            @if (Model == null || !Model.Any())
+                            {
+                                <div style="color:red">Không có dữ liệu nhân viên!</div>
+                            }
+                            else
+                            {
+                                @foreach(var (users, index) in Model.Select((item, index) => (item, index))){
+                                <tr data-userid="@users.IdUser">
+                                    <td>@(index + 1)</td>
+                                    <td>@users.Name</td>
+                                    <td>@users.Email</td>
+                                    <td>@users.CreatedDate.ToString("d/M/yyyy")</td>
+                                    <input type="hidden" name="users[@index].IdUser" value="@users.IdUser" />
+                                    <td class="isactive-cell">
+                                        <span class="isactive-text">@(users.IsActive ? "Hoạt động" : "Khóa")</span>
+                                        <select name="users[@index].IsActive"  class="form-control isactive-select" style="display:none;">
+                                            <option value="true" @(users.IsActive ? "selected" : "")>Hoạt động</option>
+                                            <option value="false" @(!users.IsActive ? "selected" : "")>Khóa</option>
+                                        </select>
+                                    </td>
+                                    <td class="role-cell">
+                                        <span class="role-text">@users.Roles?.Name</span>
+                                        <select name="users[@index].RolesidRole" class="form-control role-select" style="display:none;">
+                                            <option value="">Chọn chức danh</option>
+                                            @foreach (var role in ViewBag.Roles)
+                                            {
+                                                <option value="@role.IdRole" @(users.RolesidRole == role.IdRole ? "selected" : "")>@role.Name</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td colspan="2">
+                                        <a role="button" class="btn btn-primary btn-edit" >Sửa</a>
+                                        <button type="submit" role="button" class="btn btn-success btn-save" style="display:none;">Lưu</button>
+                                        <a role="button" class="btn btn-danger"  href = "javascript:del_confirm('@Url.Action("DeleteStaff", "ManageStaff", new { area = "Admin",id = users.IdUser })','@users.Name')">Xóa </a>
+                                    </td>
+                                </tr>
+                                }
+                            }
+                        
+                </tbody>
+            </table>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<dialog id="AddRole" class="AddDialog-Modal">
+    <form method="post" action="/Admin/ManageStaff/Add">
+        <div class="dialog-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm mới nhân viên</h5>
+                <button type="button" class="btn-close" id="CloseIcon" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="NameCategory" class="form-label">Họ và tên:</label>
+                    <input type="text" class="form-control" id="Name"  name="Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="NameCategory" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="Email"  name="Email" required>
+                </div>
+                 <div class="form-group">
+                    <label for="NameCategory" class="form-label">Mật khẩu:</label>
+                    <input type="password" class="form-control" id="Password"  name="Password" placeholder="Mật khẩu truy cập lần đầu ..." required>
+                </div>
+                
+                 <div class="form-group">
+                    <label for="NameCategory" class="form-label">Chức danh:</label>
+                    <select class="form-control" id="RoleId" name="RoleId" required>
+                        <option value="">Chọn chức danh</option>
+                        @foreach (var role in ViewBag.Roles)
+                        {
+                            <option value="@role.IdRole">@role.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="dialog-buttons">
+                <button type="submit" class="submit-btn">Thêm</button>
+            </div>
+        </div>
+    </form>
+</dialog>
+
+<script>
+    function del_confirm(strlink,NameCategory){
+        ok = confirm("Bạn có muốn xóa nhân viên này không ? '" + NameCategory + "' không ?");
+        if (ok != 0){
+            window.location.href = strlink;
+        }
+    }
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addCategoryDialog = document.getElementById("AddRole");
+        const showAddDialogButton = document.getElementById("ShowAddDialog");
+        const CloseIconButton = document.getElementById("CloseIcon");
+
+        showAddDialogButton.addEventListener("click", function () {
+            addCategoryDialog.showModal();
+        });
+        addCategoryDialog.addEventListener("click", function (event) {
+            if (event.target === addCategoryDialog) {
+                addCategoryDialog.close();
+            }
+        });
+        CloseIconButton.addEventListener("click", function () {
+            addCategoryDialog.close();
+        });
+    });
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const editButtons = document.querySelectorAll(".btn-edit");
+        const saveButtons = document.querySelectorAll(".btn-save");
+
+        editButtons.forEach((editBtn) => {
+            editBtn.addEventListener("click", function () {
+                const row = editBtn.closest("tr");
+                // Ẩn nút Sửa, hiện nút Lưu
+                editBtn.style.display = "none";
+                row.querySelector(".btn-save").style.display = "inline-block";
+                // Ẩn span, hiện select trạng thái
+                row.querySelector(".isactive-text").style.display = "none";
+                row.querySelector(".isactive-select").style.display = "inline-block";
+                // Ẩn span, hiện select chức danh
+                row.querySelector(".role-text").style.display = "none";
+                row.querySelector(".role-select").style.display = "inline-block";
+            });
+        });
+
+        saveButtons.forEach((saveBtn) => {
+            saveBtn.addEventListener("click", function () {
+                const row = saveBtn.closest("tr");
+                // Ẩn nút Lưu, hiện nút Sửa
+                saveBtn.style.display = "none";
+                row.querySelector(".btn-edit").style.display = "inline-block";
+                // Ẩn select, hiện lại span trạng thái
+                row.querySelector(".isactive-select").style.display = "none";
+                row.querySelector(".isactive-text").style.display = "inline-block";
+                // Ẩn select, hiện lại span chức danh
+                row.querySelector(".role-select").style.display = "none";
+                row.querySelector(".role-text").style.display = "inline-block";
+            });
+        });
+    });
+</script>

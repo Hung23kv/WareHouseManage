@@ -10,6 +10,7 @@ namespace WareHouse.Models
         public string Email { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
+        public int RolesidRole { get; set; }
 
         [Required]
         public string UserPassword { get; set; }
