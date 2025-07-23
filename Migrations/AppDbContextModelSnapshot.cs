@@ -130,6 +130,9 @@ namespace WareHouse.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdItemRequest"));
 
+                    b.Property<bool?>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -354,7 +357,7 @@ namespace WareHouse.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RolesIdRole")
+                    b.Property<int>("RolesidRole")
                         .HasColumnType("int");
 
                     b.Property<string>("UserPassword")
@@ -363,7 +366,7 @@ namespace WareHouse.Migrations
 
                     b.HasKey("IdUser");
 
-                    b.HasIndex("RolesIdRole");
+                    b.HasIndex("RolesidRole");
 
                     b.ToTable("Users");
                 });
@@ -484,7 +487,7 @@ namespace WareHouse.Migrations
                 {
                     b.HasOne("WareHouse.Models.Role", "Roles")
                         .WithMany("Users")
-                        .HasForeignKey("RolesIdRole")
+                        .HasForeignKey("RolesidRole")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -41,11 +41,19 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="~/Areas/Admin/Views/ThongKe/Index.cshtml" aria-expanded="false">
+                            <a class="sidebar-link" href="@Url.Action("Index", "RequestProduct", new { area = "Staff" })" aria-expanded="false">
                                 <span>
                                     <i class="fa-regular fa-registered"></i>
                                 </span>
                                 <span class="hide-menu">Yêu cầu vật tư</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index", "SupplyRequestForm", new { area = "Staff" })" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-bookmark"></i>
+                                </span>
+                                <span class="hide-menu">Xem phiếu</span>
                             </a>
                         </li>
                     </ul>

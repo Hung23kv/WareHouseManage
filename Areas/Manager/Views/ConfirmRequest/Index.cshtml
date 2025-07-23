@@ -1,0 +1,121 @@
+@model IEnumerable<WareHouse.Models.ItemRequest>
+@{
+    Layout = "~/Areas/Manager/Views/Shared/_LayoutManager.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/AddCategory.css" />
+
+<div class="container-fluid">
+    <div class="card">
+        <br>
+            <p class="h3" style="text-align:center;margin-top: 5px;color:red" >Danh sách phiếu yêu cầu</p>
+        <br>
+        <div class="row"> 
+            <div class="col-md-12" style="margin-top:20px">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã phiếu </th>
+                        <th scope="col">Chi chú</th>
+                        <th scope="col">Người yêu cầu</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Thông qua ?</th>
+                        <th scope="col" colspan="2" >Thao tác</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                        @foreach(var item in Model){
+                            <tr>
+                                <td>YC-@item.IdItemRequest</td>
+                                <td>@item.Note</td>
+                                <td>@item.Users.Name</td>
+                                <td>@item.RequestDate</td>
+                                <td>@item.Status</td>
+                                <td>@item.IsApproved</td>
+                                <td>
+                                    
+                                        <a role="button" class="btn btn-primary show-detail-btn" data-id="@item.IdItemRequest">Xem chi tiết</a>
+                                    
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<form id="approve-form" method="post" action="/Manager/ConfirmRequest/ApproveRequest">
+    <dialog id="DetailRequest" class="AddDialog-Modal">
+    <div class="dialog-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Chi tiết phiếu yêu cầu</h5>
+            <button type="button" class="btn-close" id="CloseIcon" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table" id="detail-items-table">
+                <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- JS sẽ render dữ liệu vào đây -->
+                </tbody>
+            </table>
+        </div>
+        <div class="dialog-buttons" style="display:flex;justify-content:center;align-items:center;">
+            <button type="submit" class="btn btn-success" id="approve-btn" style="display:none;">Xác nhận</button>
+            <input type="hidden" name="id" id="approve-request-id" />
+        </div>
+    </div>
+</dialog>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const detailRequestDialog = document.getElementById("DetailRequest");
+        const closeIconButton = document.getElementById("CloseIcon");
+        let currentRequestId = null;
+
+        document.querySelectorAll('.show-detail-btn').forEach(btn => {
+            btn.addEventListener("click", function () {
+                const requestId = this.getAttribute('data-id');
+                currentRequestId = requestId;
+                fetch(`/Manager/ConfirmRequest/GetRequestDetail?id=${requestId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        // Render table
+                        const tbody = document.querySelector("#detail-items-table tbody");
+                        tbody.innerHTML = "";
+                        data.items.forEach(item => {
+                            tbody.innerHTML += `<tr>
+                                <td>${item.productName}</td>
+                                <td>${item.quantity}</td>
+                            </tr>`;
+                        });
+                        // Hiện nút xác nhận nếu chưa duyệt
+                        const approveBtn = document.getElementById("approve-btn");
+                        if (!data.isApproved) {
+                            approveBtn.style.display = "inline-block";
+                            // Gán id vào input hidden
+                            document.getElementById("approve-request-id").value = requestId;
+                        } else {
+                            approveBtn.style.display = "none";
+                        }
+                        detailRequestDialog.showModal();
+                    });
+            });
+        });
+
+        closeIconButton.addEventListener("click", function () {
+            detailRequestDialog.close();
+        });
+
+        
+    });
+</script>

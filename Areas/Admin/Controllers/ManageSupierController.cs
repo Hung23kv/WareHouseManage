@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WareHouse.Areas.Admin.Controllers
 {
-    [Route("[controller]")]
+    [Area("Admin")]
     public class ManageSupierController : Controller
     {
         private readonly ILogger<ManageSupierController> _logger;

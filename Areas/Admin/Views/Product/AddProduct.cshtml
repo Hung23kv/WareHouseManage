@@ -1,0 +1,78 @@
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <br>
+            <p class="h3"style="text-align:center;margin-top: 5px;color:red" >THÊM SẢN PHẨM MỚI</p>
+        <br>
+        <div class="row">  
+            <div class="col-md-12" style="margin-top:20px">
+                <form method="post" action="">
+                    <div class="form-group row mb-4 align-items-center">
+                        <label for="ProductName" class="col-sm-2 col-form-label text-end">Tên sản phẩm: </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="ProductName" name="ProductName" placeholder="Nhập tên sản phẩm" >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-4 align-items-center">
+                        <label for="Description" class="col-sm-2 col-form-label text-end">Mô tả:</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="Description" name="Description" placeholder="Nhập mô tả" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-4 align-items-center">
+                        <label for="Unit" class="col-sm-2 col-form-label text-end">Đơn vị tính: </label>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="Unit" name="Unit"  >
+                        </div>
+                        <label for="Price" class="col-sm-2 col-form-label text-end">Giá:  </label>
+                        <div class="col-sm-1">
+                            <input type="number" class="form-control" id="Price" name="Price">
+                        </div>
+                        <label for="Quantity" class="col-sm-2 col-form-label text-end">Số lượng: </label>
+                        <div class="col-sm-1">
+                            <input type="number" class="form-control" id="Quantity" name="Quantity">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-4 align-items-center">
+                        <label for="Description" class="col-sm-2 col-form-label text-end">Hạng mục:</label>
+                        <div class="col-sm-3">
+                            <select name="CategoryId" class="form-control role-select" required>
+                                <option value="" disabled selected>Chọn hạng mục</option>
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        <option value="@category.IdCategory">@category.NameCategory</option>
+                                    }
+                            </select>
+                        </div>
+                        <label for="Description" class="col-sm-2 col-form-label text-end">Nhà cung cấp:</label>
+                        <div class="col-sm-3">
+                            <select name="SupplierId" class="form-control role-select" required>
+                                <option value="" disabled selected>Chọn nhà cung cấp</option>
+                                    @foreach (var supplier in ViewBag.Suppliers)
+                                    {
+                                        <option value="@supplier.IdSupplier">@supplier.Name</option>
+                                    }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 30px">
+                        <div class="col-12 d-flex justify-content-center gap-3">
+                            <button type="submit" class="btn btn-success px-4 py-2">Lưu</button>
+                            <a href="/Admin/Product" class="btn btn-info px-4 py-2 text-white">Quay lại</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

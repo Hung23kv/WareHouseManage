@@ -9,6 +9,7 @@ namespace WareHouse.Models
         public DateTime RequestDate { get; set; }
         public string? Status { get; set; }
         public string? Note { get; set; }
+        public bool? IsApproved { get; set; }
 
         public virtual User Users { get; set; }
 

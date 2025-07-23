@@ -37,11 +37,11 @@
                                 <span>
                                     <i class="fa-solid fa-warehouse"></i>
                                 </span>
-                                <span class="hide-menu">Quản lý kho</span>
+                                <span class="hide-menu">Giám sát kho</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="~/Areas/Admin/Views/ThongKe/Index.cshtml" aria-expanded="false">
+                            <a class="sidebar-link" href="@Url.Action("Index", "ManageSupier", new { area = "Admin" })" aria-expanded="false">
                                 <span>
                                     <i class="fa-solid fa-car-side"></i>
                                 </span>

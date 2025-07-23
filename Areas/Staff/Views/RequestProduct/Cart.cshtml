@@ -1,0 +1,76 @@
+@using WareHouse.Helpers
+@{
+    Layout = "~/Areas/Staff/Views/Shared/_LayoutStaff.cshtml";
+}
+<h2 style="text-align:center;margin-top: 5px;color:red">Vật tư đã yêu cầu</h2>
+<br>
+<form action="@Url.Action("ConfirmRequest", "RequestProduct", new { area = "Staff" })" method="post">
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã</th>
+            <th>Tên vật tư</th>
+            <th>Số lượng</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>SP @product.IdProduct</td>
+                <td>@product.RequestName</td>
+                <td>
+                    <input type="number" style="text-align: center;" name="quantity" value="@product.RequestQuantity" min="1" max="@product.quantity" onchange="updateQuantity(@product.IdProduct, this.value)">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="removeFromCart(@product.IdProduct, '@product.RequestName')">Xóa</button>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td >Ghi chú: </td>
+            <td colspan="4">
+                <textarea class="form-control" id="Description" name="Description" placeholder="Nhập ghi chú" rows="3" required></textarea>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <div class="row">
+            <div class="col-md-12" style="display: flex; justify-content: center; align-items: center;">
+                <button type="submit" class="btn btn-success" style="margin-right: 10px;">Xác nhận</button>
+                <a type="button" class="btn btn-primary" href="@Url.Action("Index", "RequestProduct", new { area = "Staff" })">Quay lại</a>
+            </div>
+    </div>
+</form>
+
+<script>
+    function removeFromCart(id, name) {
+        if (confirm("Bạn có muốn xóa sản phẩm '" + name + "' khỏi giỏ hàng không?")) {
+            $.ajax({
+                url: '@Url.Action("RemoveFromCart", "RequestProduct", new { area = "Staff" })',
+                type: 'POST',
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        location.reload(); // hoặc xóa dòng khỏi DOM nếu muốn mượt hơn
+                    }
+                }
+            });
+        }
+    }
+
+    function updateQuantity(id, quantity) {
+        $.ajax({
+            url: '@Url.Action("UpdateCart", "RequestProduct", new { area = "Staff" })',
+            type: 'POST',
+            data: { id: id, quantity: quantity },
+            success: function (result) {
+                if (result.success) {
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,89 @@
+@model dynamic
+@{
+    Layout = "~/Areas/Staff/Views/Shared/_LayoutStaff.cshtml";
+}
+<style>
+.card-request {
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    margin-bottom: 32px;
+    overflow: hidden;
+    background: #fff;
+    transition: box-shadow 0.2s;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 900px;
+}
+.card-request:hover {
+    box-shadow: 0 8px 32px rgba(25, 118, 210, 0.15);
+}
+.card-header-custom {
+    background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+    color: #fff;
+    padding: 20px 28px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+}
+.card-body-custom {
+    padding: 28px 28px 20px 28px;
+    background: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.status-badge {
+    background: #ff9800;
+    color: #fff;
+    border-radius: 8px;
+    padding: 6px 18px;
+    font-size: 1em;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.card-body-custom p {
+    margin-bottom: 14px;
+    font-size: 1.08em;
+}
+.card-body-custom ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+.card-body-custom li {
+    margin-bottom: 8px;
+    font-size: 1.05em;
+}
+</style>
+
+<h2 style="text-align: center; margin-top: 32px; margin-bottom: 32px; font-size: 2em; font-weight: 600;">Phiếu yêu cầu vật tư của tôi</h2>
+
+@foreach (var req in Model)
+{
+    <div class="card-request">
+        <div class="card-header-custom">
+            <span>Phiếu yêu cầu #@req.ItemRequest.IdItemRequest</span>
+            <span class="status-badge">@req.ItemRequest.Status</span>
+        </div>
+        <div class="card-body-custom row">
+            <div class="col-md-6" style="margin-bottom: 10px;">
+                <p><strong>Ngày tạo:</strong> @req.ItemRequest.RequestDate?.ToString("yyyy-MM-dd HH:mm")</p>
+                <p><strong>Người yêu cầu:</strong> @(req.ItemRequest.Users != null && !string.IsNullOrEmpty(req.ItemRequest.Users.Name) ? req.ItemRequest.Users.Name : "Không xác định")</p>
+                <p><strong>Ghi chú:</strong> @req.ItemRequest.Note</p>
+                <p><strong>Chấp thuận:</strong> @req.ItemRequest.IsApproved</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Danh sách dụng cụ:</strong>
+                <ul>
+                    @foreach (var detail in req.DetailRequests)
+                    {
+                        <li>
+                            <b>@detail.ProductName</b> (Mã:SP @detail.ProductId) - SL: <b>@detail.Quantity</b>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}

@@ -762,3 +762,4 @@ D:\WareHouse\obj\Debug\net9.0\refint\WareHouse.dll
 D:\WareHouse\obj\Debug\net9.0\WareHouse.pdb
 D:\WareHouse\obj\Debug\net9.0\WareHouse.genruntimeconfig.cache
 D:\WareHouse\obj\Debug\net9.0\ref\WareHouse.dll
+D:\WareHouse\bin\Debug\net9.0\Newtonsoft.Json.dll
