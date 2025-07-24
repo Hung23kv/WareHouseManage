@@ -40,6 +40,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/WareHouse/Areas/Admin/Views/ManageOrder/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlT3JkZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/WareHouse/Areas/Admin/Views/ManageStaff/HomeManageStaff.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlU3RhZmZcSG9tZU1hbmFnZVN0YWZmLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -88,6 +92,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/WareHouse/Areas/StaffWareHouse/Views/Inventory/Import.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcSW52ZW50b3J5XEltcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/WareHouse/Areas/StaffWareHouse/Views/Inventory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcSW52ZW50b3J5XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/WareHouse/Areas/StaffWareHouse/Views/Inventory/Order.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcSW52ZW50b3J5XE9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/WareHouse/Areas/StaffWareHouse/Views/Shared/_LayoutStaffWareHouse.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcU2hhcmVkXF9MYXlvdXRTdGFmZldhcmVIb3VzZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -110,6 +126,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/WareHouse/Areas/Staff/Views/SupplyRequestForm/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZcVmlld3NcU3VwcGx5UmVxdWVzdEZvcm1cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/WareHouse/Areas/Staff/Views/ViewTimeSheet/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZcVmlld3NcVmlld1RpbWVTaGVldFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/WareHouse/Areas/Suppier/Views/Home/Index.cshtml]

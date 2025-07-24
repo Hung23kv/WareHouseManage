@@ -1,0 +1,161 @@
+@model IEnumerable<WareHouse.Models.Product>
+
+@{
+    Layout = "~/Areas/StaffWareHouse/Views/Shared/_LayoutStaffWareHouse.cshtml";
+}
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<style>
+    .floating-cart-btn {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        z-index: 10;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: box-shadow 0.2s;
+    }
+    .floating-cart-btn:hover {
+        box-shadow: 0 4px 16px rgba(93,135,255,0.25);
+        background: #f6f9fc;
+    }
+    .floating-cart-btn svg {
+        width: 28px;
+        height: 28px;
+        color: #5D87FF;
+    }
+    .floating-cart-btn:active {
+        background: #eaeff4;
+    }
+    .floating-cart-btn:focus {
+        outline: none;
+    }
+    .floating-cart-btn-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #FA896B;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        pointer-events: none;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header" style="position: relative;">
+                <p class="h3" style="text-align:center;margin-top: 5px;color:red">TỒN KHO</p>
+            </div>
+        <div class = "row">
+            <div class = "col-md-12">
+                <div class = "card">
+                    <div class="card-header" style="display: flex; justify-content: center; align-items: center;">
+                        <form method="get" asp-action="Index" id="categoryForm" style="width:100%;">
+                            <div class="row" style="width:100%;">
+                                <div class="col-9 d-flex align-items-center">
+                                    <select name="CategoryRequest" class="form-control role-select ml-2" required onchange="document.getElementById('categoryForm').submit();" style="max-width: 75%;">
+                                        <option value="" disabled selected>Chọn hạng mục</option>
+                                        @foreach (var category in ViewBag.CategoryRequest)
+                                        {
+                                            <option value="@category.IdCategory" @(Context.Request.Query["CategoryRequest"] == category.IdCategory.ToString() ? "selected" : "")>
+                                                @category.NameCategory
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-3 d-flex align-items-center justify-content-end">
+                                    <a href="@Url.Action("Import", "Inventory")" class="btn btn-primary" style="width: 100%;">Nhập vật tư</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+                <table class="table table-bordered" id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th>Mã </th>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn vị tính</th>
+                            <th>Số lượng còn lại</th>
+                            <th>Số lượng đã nhập</th>
+                            <th>Số lượng đã xuất</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>
+                            <select id="sortQuantity" class="form-control" style="width: 200px; display: inline-block; margin-bottom: 10px;">
+                                <option value="">Sắp xếp </option>
+                                <option value="desc">Giảm dần</option>
+                                <option value="asc">Tăng dần</option>
+                            </select>
+                            </td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>SP @product.IdProduct</td>
+                                <td>@product.NameProduct</td>
+                                <td>@product.Unit</td>
+                                <td>@product.remainingQuantity</td>
+                                <td> .... </td>
+                                <td> .... </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#sortQuantity').on('change', function() {
+        var order = $(this).val();
+        var $tbody = $('#inventoryTable tbody');
+        var $rows = $tbody.find('tr');
+        var $firstRow = $rows.first(); // Dòng đầu tiên (dấu ...)
+
+        // Lấy các dòng còn lại để sort
+        var rowsToSort = $rows.slice(1).get();
+
+        rowsToSort.sort(function(a, b) {
+            var keyA = parseInt($(a).find('td').eq(3).text().replace(/\D/g, '')) || 0;
+            var keyB = parseInt($(b).find('td').eq(3).text().replace(/\D/g, '')) || 0;
+            if(order === 'asc') return keyA - keyB;
+            if(order === 'desc') return keyB - keyA;
+            return 0;
+        });
+
+        // Gắn lại dòng đầu tiên, sau đó các dòng đã sort
+        $tbody.empty().append($firstRow).append(rowsToSort);
+    });
+});
+</script>

@@ -1,0 +1,129 @@
+@model IEnumerable<WareHouse.Models.Order>
+@{
+    Layout = "~/Areas/StaffWareHouse/Views/Shared/_LayoutStaffWareHouse.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/AddCategory.css" />
+
+<div class="container-fluid">
+    <div class="card">
+        <h3 class="text-center mt-3 mb-3">Danh sách đơn hàng</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Ngày tạo</th>
+                    <th>Trạng thái</th>
+                    <th>Tổng tiền</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var order in Model)
+                {
+                    <tr>
+                        <td>DH-@order.IdOrder</td>
+                        <td>@order.Suppliers?.Name</td>
+                        <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
+                        <td>@order.Status</td>
+                        <td>@order.TotalAmount?.ToString("N0")</td>
+                        <td>
+                            <button class="btn btn-primary show-detail-btn" data-id="@order.IdOrder">Xem chi tiết</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<form id="update-status-form" method="post" action="/StaffWareHouse/Inventory/UpdateOrderStatus">
+    <dialog id="OrderDetailDialog" class="AddDialog-Modal">
+        <div class="dialog-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết đơn hàng</h5>
+                <button type="button" class="btn-close" id="CloseOrderDialog"></button>
+            </div>
+            <div class="modal-body">
+                <div><b>Nhà cung cấp:</b> <span id="order-supplier"></span></div>
+                <div><b>Ngày tạo:</b> <span id="order-date"></span></div>
+                <div><b>Tổng tiền:</b> <span id="order-total"></span></div>
+                <div><b>Trạng thái:</b> <span id="order-status"></span></div>
+                <table class="table" id="order-detail-items-table">
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- JS sẽ render dữ liệu vào đây -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="dialog-buttons" style="display:flex;justify-content:center;align-items:center;">
+                <input type="hidden" name="id" id="update-order-id" />
+                <select name="newStatus" id="new-status-select" class="form-control" style="width:200px;display:none;">
+                    <option value="Hoàn thành">Hoàn thành</option>
+                    <option value="Đã hủy">Đã hủy</option>
+                </select>
+                <button type="submit" class="btn btn-success" id="update-status-btn" style="display:none;">Cập nhật</button>
+            </div>
+        </div>
+    </dialog>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const orderDialog = document.getElementById("OrderDetailDialog");
+    const closeOrderDialogBtn = document.getElementById("CloseOrderDialog");
+
+    // Xử lý nút "Xem chi tiết"
+    document.querySelectorAll('.show-detail-btn').forEach(btn => {
+        btn.addEventListener("click", function () {
+            const orderId = this.getAttribute('data-id');
+            fetch(`/StaffWareHouse/Inventory/GetOrderDetail?id=${orderId}`)
+                .then(res => res.json())
+                .then(data => {
+                    // Render thông tin đơn hàng
+                    document.getElementById("order-supplier").textContent = data.supplier || "";
+                    document.getElementById("order-date").textContent = data.orderDate ? new Date(data.orderDate).toLocaleDateString() : "";
+                    document.getElementById("order-total").textContent = data.totalAmount ? data.totalAmount.toLocaleString() + " VNĐ" : "";
+                    document.getElementById("order-status").textContent = data.status || "";
+
+                    // Render chi tiết sản phẩm
+                    const tbody = document.querySelector("#order-detail-items-table tbody");
+                    tbody.innerHTML = "";
+                    data.items.forEach(item => {
+                        tbody.innerHTML += `<tr>
+                            <td>${item.productName}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price?.toLocaleString() || 0}</td>
+                            <td>${item.total?.toLocaleString() || 0}</td>
+                        </tr>`;
+                    });
+
+                    // Nếu trạng thái là "Đang giao" thì cho phép cập nhật
+                    if (data.status === "Đang giao") {
+                        document.getElementById("update-order-id").value = orderId;
+                        document.getElementById("new-status-select").style.display = "inline-block";
+                        document.getElementById("update-status-btn").style.display = "inline-block";
+                    } else {
+                        document.getElementById("update-order-id").value = "";
+                        document.getElementById("new-status-select").style.display = "none";
+                        document.getElementById("update-status-btn").style.display = "none";
+                    }
+                    orderDialog.showModal();
+                });
+        });
+    });
+
+    // Xử lý nút đóng dialog
+    closeOrderDialogBtn.addEventListener("click", function () {
+        orderDialog.close();
+    });
+});
+</script>

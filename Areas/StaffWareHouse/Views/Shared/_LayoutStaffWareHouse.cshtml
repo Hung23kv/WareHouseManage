@@ -41,24 +41,24 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="sidebarDropdownThongKe">
                                 <li>
-                                    <a class="dropdown-item" href="~/Areas/Admin/Views/ThongKe/ThongKeNgay.cshtml">Xem tồn kho</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Inventory", new { area = "StaffWareHouse" })">Xem tồn kho</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="~/Areas/Admin/Views/ThongKe/ThongKeThang.cshtml">Nhập kho</a>
+                                    <a class="dropdown-item" href="@Url.Action("Order", "Inventory", new { area = "StaffWareHouse" })">Phiếu nhập kho</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="~/Areas/Admin/Views/ThongKe/ThongKeNam.cshtml">Xuất kho</a>
+                                    <a class="dropdown-item" href="#">Xuất kho</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-item">
+                        <!-- <li class="sidebar-item">
                             <a class="sidebar-link" href="~/Areas/Admin/Views/ThongKe/Index.cshtml" aria-expanded="false">
                                 <span>
                                    <i class="fa-solid fa-note-sticky"></i>
                                 </span>
                                 <span class="hide-menu">Báo cáo</span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     
                 </nav>

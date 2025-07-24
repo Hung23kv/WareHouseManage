@@ -1,0 +1,62 @@
+@model WareHouse.Helpers.TimeKeepingVM
+@{
+    Layout = "~/Areas/Staff/Views/Shared/_LayoutStaff.cshtml";
+    int daysInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
+    var today = DateTime.Now;
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center" style="font-size: 24px; font-weight: bold;color: red;">Chấm công</h2>
+    <!-- Nút chuyển tháng -->
+    <div class="d-flex justify-content-center mb-3">
+        <a href="@Url.Action("Index", new { month = Model.Month == 1 ? 12 : Model.Month - 1, year = Model.Month == 1 ? Model.Year - 1 : Model.Year })" class="btn btn-outline-primary me-2">Tháng trước</a>
+        <h5 class="mx-3 my-auto">Tháng @Model.Month/@Model.Year</h5>
+        @if (!(Model.Month == today.Month && Model.Year == today.Year))
+        {
+            <a href="@Url.Action("Index", new { month = today.Month, year = today.Year })" class="btn btn-outline-primary">Tháng này</a>
+        }
+    </div>
+    <form method="post" action="">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle text-center">
+                <tr>
+                    <th>Tên NV</th>
+                    @for (int d = 1; d <= daysInMonth; d++)
+                    {
+                        var isToday = (d == today.Day && Model.Month == today.Month && Model.Year == today.Year);
+                        <th class="@(isToday ? "text-danger fw-bold" : "")">@d</th>
+                    }
+                </tr>
+                @foreach (var emp in Model.Employees)
+                {
+                    <tr>
+                        <td>@emp.Name</td>
+                        @for (int d = 1; d <= daysInMonth; d++)
+                        {
+                            var isToday = (d == today.Day && Model.Month == today.Month && Model.Year == today.Year);
+                            var ts = Model.TimeSheets.FirstOrDefault(t => t.Users != null && t.Users.IdUser == emp.IdUser && t.Date.Day == d);
+                            if (isToday)
+                            {
+                                if (ts != null)
+                                {
+                                    <td class="text-danger fw-bold">X</td>
+                                }
+                            }
+                            else
+                            {
+                                if (ts != null)
+                                {
+                                    <td>X</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            }
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </form>
+</div>

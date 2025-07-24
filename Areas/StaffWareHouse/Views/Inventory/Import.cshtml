@@ -1,0 +1,320 @@
+@model IEnumerable<WareHouse.Models.Product>
+@{
+    Layout = "~/Areas/StaffWareHouse/Views/Shared/_LayoutStaffWareHouse.cshtml";
+    var categories = ViewBag.CategoryRequest as List<WareHouse.Models.Category>;
+    int? selectedCategory = ViewBag.SelectedCategory as int?;
+    var sortedModel = Model != null ? Model.OrderByDescending(p => p.remainingQuantity).ToList() : null;
+}
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    .floating-cart-btn {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        z-index: 10;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: box-shadow 0.2s;
+    }
+    .floating-cart-btn:hover {
+        box-shadow: 0 4px 16px rgba(93,135,255,0.25);
+        background: #f6f9fc;
+    }
+    .floating-cart-btn svg {
+        width: 28px;
+        height: 28px;
+        color: #5D87FF;
+    }
+    .floating-cart-btn:active {
+        background: #eaeff4;
+    }
+    .floating-cart-btn:focus {
+        outline: none;
+    }
+    .floating-cart-btn-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #FA896B;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        pointer-events: none;
+    }
+    .centered-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 40vh;
+    }
+    .form-card {
+        padding: 32px 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+        background: #fff;
+        min-width: 350px;
+        max-width: 500px;
+        width: 100%;
+    }
+    .table-responsive {
+        margin-top: 32px;
+    }
+    .create-order-btn {
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+    }
+    .sort-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 8px;
+    }
+    .sort-row select {
+        width: 200px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="centered-form">
+        <div class="form-card">
+            <form method="get" asp-action="Import" id="categoryForm">
+                <div class="form-group">
+                    <label for="categorySelect" class="h5" style="color:#5D87FF;">Chọn hạng mục vật tư</label>
+                    <select id="categorySelect" name="CategoryRequest" class="form-control mt-2" required onchange="document.getElementById('categoryForm').submit();">
+                        <option value="" disabled selected>Chọn hạng mục</option>
+                        @if (categories != null)
+                        {
+                            foreach (var category in categories)
+                            {
+                                <option value="@category.IdCategory" @(selectedCategory == category.IdCategory ? "selected" : "")>
+                                    @category.NameCategory
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (sortedModel != null && sortedModel.Any())
+    {
+        <div class="table-responsive">
+            <div class="sort-row justify-content-center">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <label for="sortQuantity" style="margin: 0; font-weight: 500; font-size: 1.1rem;">Sắp xếp theo số lượng còn lại:</label>
+                    <select id="sortQuantity" class="form-control" style="width: 180px;">
+                        <option value="desc" selected>Giảm dần</option>
+                        <option value="asc">Tăng dần</option>
+                    </select>
+                </div>
+            </div>
+
+            <br>
+            <form id="createOrderForm" onsubmit="return false;">
+                <table class="table table-bordered" id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Mã</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn vị tính</th>
+                            <th>Số lượng còn lại</th>
+                            <th>Số lượng nhập</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in sortedModel)
+                        {
+                            <tr data-price="@product.Price">
+                                <td class="text-center">
+                                    <input type="checkbox" name="SelectedProducts" value="@product.IdProduct" />
+                                </td>
+                                <td>SP @product.IdProduct</td>
+                                <td>@product.NameProduct</td>
+                                <td>@product.Unit</td>
+                                <td>@product.remainingQuantity</td>
+                                <td>
+                                    <input type="number" name="Quantity_@product.IdProduct" min="1" max="@product.remainingQuantity" class="form-control" style="width:100px;" disabled />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="create-order-btn">
+                    <button type="submit" class="btn btn-success">Tạo đơn hàng</button>
+                </div>
+            </form>
+        </div>
+    }
+</div>
+
+<!-- Modal -->
+<form method="post" action="/StaffWareHouse/Inventory/AddOrder">
+        <div class="modal fade" id="orderSummaryModal" tabindex="-1" aria-labelledby="orderSummaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="orderSummaryModalLabel">Xác nhận đơn hàng</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered" id="orderSummaryTable">
+            <thead>
+                <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng nhập</th>
+                <th>Giá</th>
+                <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Nội dung sẽ được thêm bằng JS -->
+            </tbody>
+            </table>
+            <div class="text-end fw-bold">
+            Tổng cộng: <span id="orderTotal"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary" id="confirmOrderBtn">Xác nhận</button>
+        </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+<script>
+$(document).ready(function() {
+    // Enable/disable input number theo checkbox
+    $(document).on('change', 'input[type=checkbox][name=SelectedProducts]', function() {
+        var row = $(this).closest('tr');
+        var input = row.find('input[type=number]');
+        if ($(this).is(':checked')) {
+            input.prop('disabled', false);
+            input.val(1);
+        } else {
+            input.prop('disabled', true);
+            input.val('');
+        }
+    });
+    // Sắp xếp lại bảng khi chọn dropdown
+    $('#sortQuantity').on('change', function() {
+        var order = $(this).val();
+        var $tbody = $('#inventoryTable tbody');
+        var $rows = $tbody.find('tr').get();
+        $rows.sort(function(a, b) {
+            var keyA = parseInt($(a).find('td').eq(4).text().replace(/\D/g, '')) || 0;
+            var keyB = parseInt($(b).find('td').eq(4).text().replace(/\D/g, '')) || 0;
+            if(order === 'asc') return keyA - keyB;
+            if(order === 'desc') return keyB - keyA;
+            return 0;
+        });
+        $tbody.empty().append($rows);
+    });
+});
+
+$('#createOrderForm').on('submit', function(e) {
+    e.preventDefault();
+    var selected = [];
+    $('#inventoryTable tbody tr').each(function() {
+        var $row = $(this);
+        var $checkbox = $row.find('input[type=checkbox][name=SelectedProducts]');
+        if ($checkbox.is(':checked')) {
+            var name = $row.find('td').eq(2).text().trim();
+            var qty = parseInt($row.find('input[type=number]').val()) || 0;
+            var price = parseInt($row.data('price')) || 0;
+            selected.push({
+                name: name,
+                qty: qty,
+                price: price,
+                total: qty * price
+            });
+        }
+    });
+    if (selected.length === 0) {
+        alert('Vui lòng chọn ít nhất một sản phẩm!');
+        return;
+    }
+    // Hiển thị dữ liệu lên modal
+    var tbody = '';
+    var totalOrder = 0;
+    selected.forEach(function(item) {
+        tbody += `<tr>
+            <td>${item.name}</td>
+            <td>${item.qty}</td>
+            <td>${item.price.toLocaleString()}</td>
+            <td>${item.total.toLocaleString()}</td>
+        </tr>`;
+        totalOrder += item.total;
+    });
+    $('#orderSummaryTable tbody').html(tbody);
+    $('#orderTotal').text(totalOrder.toLocaleString() + ' VNĐ');
+    var modal = new bootstrap.Modal(document.getElementById('orderSummaryModal'));
+    modal.show();
+});
+
+$('#confirmOrderBtn').on('click', function() {
+    // Xóa các input cũ (nếu có)
+    var $form = $(this).closest('form');
+    $form.find('input[name="SelectedProducts"]').remove();
+    $form.find('input[name^="Quantity_"]').remove();
+
+    // Lấy lại các sản phẩm đã chọn từ bảng xác nhận
+    $('#inventoryTable tbody tr').each(function() {
+        var $row = $(this);
+        var $checkbox = $row.find('input[type=checkbox][name=SelectedProducts]');
+        if ($checkbox.is(':checked')) {
+            var productId = $checkbox.val();
+            var qty = $row.find('input[type=number]').val();
+
+            // Thêm input hidden SelectedProducts
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'SelectedProducts',
+                value: productId
+            }).appendTo($form);
+
+            // Thêm input hidden Quantity_xxx
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'Quantity_' + productId,
+                value: qty
+            }).appendTo($form);
+        }
+    });
+
+    // Nếu có chọn hạng mục, truyền thêm CategoryRequest
+    var categoryVal = $('#categorySelect').val();
+    if (categoryVal) {
+        $form.find('input[name="CategoryRequest"]').remove();
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'CategoryRequest',
+            value: categoryVal
+        }).appendTo($form);
+    }
+
+    $form.submit();
+});
+</script>
