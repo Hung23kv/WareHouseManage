@@ -10,6 +10,8 @@ namespace WareHouse.Models
         public string? Status { get; set; }
         public decimal? TotalAmount { get; set; }
 
+        public DateTime? DeliveryDate { get; set; }
+
         public virtual Supplier Suppliers { get; set; }
 
         public virtual ICollection<DetailOrder> DetailOrders { get; set; } = new HashSet<DetailOrder>();

@@ -16,6 +16,7 @@
                     <th>Ngày tạo</th>
                     <th>Trạng thái</th>
                     <th>Tổng tiền</th>
+                    <th>Ngày giao hàng</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -28,6 +29,7 @@
                         <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
                         <td>@order.Status</td>
                         <td>@order.TotalAmount?.ToString("N0")</td>
+                        <td>@order.DeliveryDate?.ToString("dd/MM/yyyy")</td>
                         <td>
                             <button class="btn btn-primary show-detail-btn" data-id="@order.IdOrder">Xem chi tiết</button>
                         </td>

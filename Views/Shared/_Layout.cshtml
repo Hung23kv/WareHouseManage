@@ -26,28 +26,15 @@
 <body>
     <div class="container-fluid p-0"></div>
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
-            <a href="index.html" class="navbar-brand ml-lg-3">
-                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Trường tiểu học ABC</h1>
+            <a href="/" class="navbar-brand ml-lg-3 d-flex align-items-center">
+                <img src="@Url.Content("~/Image/logo.jpg")" alt="Logo ABC" style="height:48px;width:auto;margin-right:12px;border-radius:8px;box-shadow:0 2px 8px rgba(40,120,235,0.10);background:#fff;padding:2px;">
+                <span class="m-0 text-uppercase text-primary" style="font-size:2rem;font-weight:700;letter-spacing:1px;">Công ty xây dựng ABC</span>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
-                <div class="navbar-nav mx-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Trang chủ</a>
-                    <a href="about.html" class="nav-item nav-link">Diễn đàn</a>
-                    <a href="course.html" class="nav-item nav-link">Xem điểm</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Giới thiệu</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="detail.html" class="dropdown-item">Giới thiệu chung</a>
-                            <a href="feature.html" class="dropdown-item">Đội ngũ giảng viên</a>
-                            <a href="team.html" class="dropdown-item">Cơ sở vật chất</a>
-                        </div>
-                    </div>
-                    <a href="contact.html" class="nav-item nav-link">Liên hệ</a>
-                </div>
-                <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Đăng nhập</a>
+            <div class="collapse navbar-collapse justify-content-end px-lg-3" id="navbarCollapse">  
+                <a href="@Url.Action("Index", "Login")" class="btn btn-primary py-2 px-4 ml-auto" style="font-weight:600;">Đăng nhập</a>
             </div>
         </nav>
     </div>
@@ -63,15 +50,15 @@
         <div class="container mt-5 pt-5">
             <div class="row">
                 <div class="col-md-6 mb-5">
-                    <a href="index.html" class="navbar-brand">
-                        <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-book-reader mr-3"></i>ABC</h1>
+                    <a href="/" class="navbar-brand">
+                        <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-building mr-3"></i>ABC</h1>
                     </a>
                     <p class="m-0">
-                        Trường Tiểu học ABC cung cấp một môi trường học tập an toàn và đầy kích thích, nơi mọi trẻ em được khuyến khích phát triển toàn diện về trí tuệ, kỹ năng và phẩm chất, để chuẩn bị cho tương lai sáng sủa của họ.
+                        Công ty xây dựng ABC là đơn vị hàng đầu trong lĩnh vực xây dựng dân dụng và công nghiệp, cam kết mang đến các công trình chất lượng, bền vững và sáng tạo cho khách hàng.
                     </p>
                 </div>
                 <div class="col-md-6 mb-5">
-                    <h3 class="text-white mb-4">Newsletter</h3>
+                    <h3 class="text-white mb-4">Đăng ký nhận tin</h3>
                     <div class="w-100">
                         <div class="input-group">
                             <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Địa chỉ email">
@@ -85,11 +72,10 @@
             <div class="row">
                 <div class="col-md-4 mb-5">
                     <h3 class="text-white mb-4">Liên lạc</h3>
-                    <p><i class="fa fa-map-marker-alt mr-2"></i>123,Thủ Dầu Một,Bình Dương</p>
-                    <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+                    <p><i class="fa fa-map-marker-alt mr-2"></i>456, Quận 1, TP.HCM</p>
+                    <p><i class="fa fa-phone-alt mr-2"></i>+84 28 1234 5678</p>
+                    <p><i class="fa fa-envelope mr-2"></i>info@abcxaydung.com</p>
                     <div class="d-flex justify-content-start mt-4">
-                        <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-twitter"></i></a>
                         <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-facebook-f"></i></a>
                         <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-linkedin-in"></i></a>
                         <a class="text-white" href="#"><i class="fab fa-2x fa-instagram"></i></a>
@@ -98,19 +84,18 @@
                 <div class="col-md-4 mb-5">
                     <h3 class="text-white mb-4">Giới thiệu</h3>
                     <div class="d-flex flex-column justify-content-start">
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Giới thiệu chung</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Đội ngũ giảng viên</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Cơ sở vật chất</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Tầm nhìn</a>
-                        
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Về chúng tôi</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Dịch vụ</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Dự án tiêu biểu</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Tầm nhìn & Sứ mệnh</a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">
                     <h3 class="text-white mb-4">Truy cập nhanh</h3>
                     <div class="d-flex flex-column justify-content-start">
                         <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Chính sách bảo mật</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Trợ giúp && Hỗ trớ</a>
-                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Câu hỏi</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Trợ giúp & Hỗ trợ</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Câu hỏi thường gặp</a>
                         <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Liên hệ</a>
                     </div>
                 </div>

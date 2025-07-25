@@ -2,6 +2,8 @@
 
 @{
     Layout = "~/Areas/StaffWareHouse/Views/Shared/_LayoutStaffWareHouse.cshtml";
+    var exportedDict = ViewBag.ProductExported as Dictionary<int, int>;
+    var importedDict = ViewBag.ProductImported as Dictionary<int, int>;
 }
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
@@ -125,8 +127,8 @@
                                 <td>@product.NameProduct</td>
                                 <td>@product.Unit</td>
                                 <td>@product.remainingQuantity</td>
-                                <td> .... </td>
-                                <td> .... </td>
+                                <td>@(importedDict != null && importedDict.ContainsKey(product.IdProduct) ? importedDict[product.IdProduct] : 0)</td>
+                                <td>@(exportedDict != null && exportedDict.ContainsKey(product.IdProduct) ? exportedDict[product.IdProduct] : 0)</td>
                             </tr>
                         }
                     </tbody>

@@ -1,0 +1,113 @@
+@model IEnumerable<WareHouse.Models.ItemRequest>
+@{
+    Layout = "~/Areas/StaffWareHouse/Views/Shared/_LayoutStaffWareHouse.cshtml";
+}
+<link rel="stylesheet" href="~/css/AddCategory.css" />
+
+<div class="container-fluid">
+    <div class="card">
+        <br>
+        <p class="h3" style="text-align:center;margin-top: 5px;color:red">Danh sách phiếu xuất kho</p>
+        <br>
+        <div class="row">
+            <div class="col-md-12" style="margin-top:20px">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mã phiếu</th>
+                            <th scope="col">Ghi chú</th>
+                            <th scope="col">Người yêu cầu</th>
+                            <th scope="col">Ngày tạo</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col" colspan="2">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model){
+                            <tr>
+                                <td>YC-@item.IdItemRequest</td>
+                                <td>@item.Note</td>
+                                <td>@item.Users.Name</td>
+                                <td>@item.RequestDate</td>
+                                <td>@item.Status</td>
+                                <td>
+                                    <a role="button" class="btn btn-primary show-detail-btn" data-id="@item.IdItemRequest" data-status="@item.Status">Xem chi tiết</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="export-form" method="post" action="/StaffWareHouse/Inventory/UpdateInventoryOutStatus">
+    <dialog id="DetailRequest" class="AddDialog-Modal">
+        <div class="dialog-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết phiếu xuất kho</h5>
+                <button type="button" class="btn-close" id="CloseIcon" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table" id="detail-items-table">
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- JS sẽ render dữ liệu vào đây -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="dialog-buttons" style="display:flex;justify-content:center;align-items:center;">
+                <button type="submit" class="btn btn-success" id="export-btn" style="display:none;">Xác nhận xuất kho </button>
+                <input type="hidden" name="id" id="export-request-id" />
+            </div>
+        </div>
+    </dialog>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const detailRequestDialog = document.getElementById("DetailRequest");
+        const closeIconButton = document.getElementById("CloseIcon");
+        let currentRequestId = null;
+
+        document.querySelectorAll('.show-detail-btn').forEach(btn => {
+            btn.addEventListener("click", function () {
+                const requestId = this.getAttribute('data-id');
+                const status = this.getAttribute('data-status');
+                currentRequestId = requestId;
+                fetch(`/StaffWareHouse/Inventory/GetInventoryOutDetail?id=${requestId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        // Render table
+                        const tbody = document.querySelector("#detail-items-table tbody");
+                        tbody.innerHTML = "";
+                        data.items.forEach(item => {
+                            tbody.innerHTML += `<tr>
+                                <td>${item.productName}</td>
+                                <td>${item.quantity}</td>
+                            </tr>`;
+                        });
+                        // Hiện nút xác nhận nếu chưa nhận
+                        const exportBtn = document.getElementById("export-btn");
+                        if (status !== "Đã nhận") {
+                            exportBtn.style.display = "inline-block";
+                            document.getElementById("export-request-id").value = requestId;
+                        } else {
+                            exportBtn.style.display = "none";
+                        }
+                        detailRequestDialog.showModal();
+                    });
+            });
+        });
+
+        closeIconButton.addEventListener("click", function () {
+            detailRequestDialog.close();
+        });
+    });
+</script>

@@ -1,11 +1,116 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to my website</h1>
-    <p>Hello word ! this is time to learn @DateTime.Now</p>
-    <p>Học .net</p>
-    <p>Học .net core</p>
-    dạhdkasjhdjashdkjahsdkjhasdkjhaskdhkj
+<style>
+    body.home-bg {
+        background: linear-gradient(135deg, #e9f0ff 0%, #f8fbff 100%);
+    }
+    .abc-hero {
+        background: linear-gradient(90deg, #2878eb 60%, #4fa3ff 100%);
+        color: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(40,120,235,0.08);
+        padding: 48px 24px 32px 24px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    .abc-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+    }
+    .abc-hero .slogan {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        opacity: 0.95;
+    }
+    .abc-card {
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(40,120,235,0.07);
+        background: #fff;
+        padding: 32px 24px;
+        margin-bottom: 32px;
+        transition: box-shadow 0.2s;
+    }
+    .abc-card:hover {
+        box-shadow: 0 8px 32px rgba(40,120,235,0.13);
+    }
+    .abc-section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2878eb;
+        margin-bottom: 18px;
+        letter-spacing: 1px;
+    }
+    .abc-logo {
+        max-width: 180px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(40,120,235,0.10);
+        margin: 0 auto 18px auto;
+        display: block;
+    }
+</style>
+
+<script>
+    document.body.classList.add('home-bg');
+</script>
+
+<div class="container py-4">
+    <div class="abc-hero text-center mb-5">
+        <h1>CÔNG TY XÂY DỰNG ABC</h1>
+        <div class="slogan mb-2">Vững bền cùng thời gian - Sáng tạo cho tương lai</div>
+        <div class="mt-3" style="font-size:1.1rem;opacity:0.93;max-width:600px;margin:auto;">
+            Chuyên gia trong lĩnh vực xây dựng dân dụng và công nghiệp. Đối tác tin cậy của mọi công trình lớn nhỏ trên toàn quốc.
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="abc-card h-100 text-center">
+                <div class="abc-section-title">Giới thiệu</div>
+                <div style="font-size:1rem;">
+                    Công ty xây dựng ABC là đơn vị hàng đầu với hơn 15 năm kinh nghiệm trong lĩnh vực xây dựng dân dụng, công nghiệp và hạ tầng. Chúng tôi tự hào mang đến cho khách hàng những công trình chất lượng, bền vững và sáng tạo.
+                </div>
+                <hr>
+                <div class="text-left" style="font-size:0.98rem;">
+                    <b>Sứ mệnh:</b> Xây dựng những công trình vững chắc, góp phần kiến tạo không gian sống và làm việc hiện đại, an toàn cho cộng đồng.<br>
+                    <b>Tầm nhìn:</b> Trở thành doanh nghiệp xây dựng uy tín hàng đầu Việt Nam, không ngừng đổi mới và phát triển bền vững.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="abc-card h-100 text-center">
+                <div class="abc-section-title">Dịch vụ chính</div>
+                <ul class="list-unstyled text-left mx-auto" style="max-width: 300px;">
+                    <li><i class="fa fa-check text-success mr-2"></i> Xây dựng nhà ở, biệt thự</li>
+                    <li><i class="fa fa-check text-success mr-2"></i> Xây dựng nhà xưởng, nhà kho</li>
+                    <li><i class="fa fa-check text-success mr-2"></i> Thi công công trình công cộng</li>
+                    <li><i class="fa fa-check text-success mr-2"></i> Thiết kế & tư vấn xây dựng</li>
+                    <li><i class="fa fa-check text-success mr-2"></i> Sửa chữa, cải tạo công trình</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12 mb-4">
+            <div class="abc-card h-100 text-center">
+                <div class="abc-section-title">Điểm mạnh</div>
+                <ul class="list-unstyled text-left mx-auto" style="max-width: 300px;">
+                    <li><i class="fa fa-star text-warning mr-2"></i> Đội ngũ kỹ sư, công nhân lành nghề</li>
+                    <li><i class="fa fa-star text-warning mr-2"></i> Cam kết tiến độ & chất lượng</li>
+                    <li><i class="fa fa-star text-warning mr-2"></i> Giá cả cạnh tranh, minh bạch</li>
+                    <li><i class="fa fa-star text-warning mr-2"></i> Bảo hành dài hạn</li>
+                    <li><i class="fa fa-star text-warning mr-2"></i> Tư vấn tận tâm, chuyên nghiệp</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="alert alert-primary text-center shadow-sm" style="font-size:1.1rem;">
+                <b>Liên hệ ngay</b> để nhận tư vấn miễn phí và báo giá tốt nhất cho công trình của bạn!
+            </div>
+        </div>
+    </div>
 </div>

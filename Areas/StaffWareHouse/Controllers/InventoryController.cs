@@ -35,6 +35,22 @@ namespace WareHouse.Areas.StaffWareHouse.Controllers
             {
                 listProduct = _db.Products.ToList();
             }
+
+            // Tính số lượng đã xuất cho từng sản phẩm
+            var exportedDict = _db.DetailRequests
+                .Where(dr => dr.ItemRequests.Status == "Đã nhận")
+                .GroupBy(dr => dr.Products.IdProduct)
+                .ToDictionary(g => g.Key, g => g.Sum(dr => dr.Quantity));
+
+            // Tính số lượng đã nhập cho từng sản phẩm
+            var importedDict = _db.DetailOrders
+                .Where(do1 => do1.Orders.Status == "Đã nhận hàng")
+                .GroupBy(do1 => do1.Products.IdProduct)
+                .ToDictionary(g => g.Key, g => g.Sum(do1 => do1.Quantity));
+
+            ViewBag.ProductExported = exportedDict;
+            ViewBag.ProductImported = importedDict;
+
             return View(listProduct);
         }
 
@@ -164,6 +180,54 @@ namespace WareHouse.Areas.StaffWareHouse.Controllers
             order.Status = newStatus;
             _db.SaveChanges();
             return RedirectToAction("Order");
+        }
+
+
+        public IActionResult InventoryOut()
+        {
+            var requests = _db.ItemRequests
+                .Include(x => x.Users)
+                .Where(x => x.IsApproved == true)
+                .OrderByDescending(x => x.RequestDate)
+                .ToList();
+            return View(requests);
+        }
+
+        [HttpGet]
+        public IActionResult GetInventoryOutDetail(int id)
+        {
+            var request = _db.ItemRequests.FirstOrDefault(x => x.IdItemRequest == id);
+            if (request == null)
+                return NotFound();
+
+            var details = _db.DetailRequests
+                .Where(dr => dr.ItemRequests.IdItemRequest == id)
+                .Include(dr => dr.Products)
+                .Select(d => new {
+                    productName = d.Products.NameProduct,
+                    quantity = d.Quantity,
+                }).ToList();
+
+            return Json(new {
+                isExported = request.Status == "Đã xuất kho", 
+                items = details
+            });
+        }
+
+        [HttpPost]
+        [Route("StaffWareHouse/Inventory/UpdateInventoryOutStatus")]
+        public IActionResult UpdateInventoryOutStatus(int id)
+        {
+            var request = _db.ItemRequests.FirstOrDefault(x => x.IdItemRequest == id);
+            if (request == null)
+                return NotFound();
+
+            if (request.Status == "Đã nhận")
+                return BadRequest("Phiếu đã được xuất kho!");
+
+            request.Status = "Đã nhận";
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

@@ -100,6 +100,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcSW52ZW50b3J5XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/WareHouse/Areas/StaffWareHouse/Views/Inventory/InventoryOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcSW52ZW50b3J5XEludmVudG9yeU91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/WareHouse/Areas/StaffWareHouse/Views/Inventory/Order.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZXYXJlSG91c2VcVmlld3NcSW52ZW50b3J5XE9yZGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -132,6 +136,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3RhZmZcVmlld3NcVmlld1RpbWVTaGVldFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/WareHouse/Areas/Suppier/Views/ConfirmOder/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwcGllclxWaWV3c1xDb25maXJtT2RlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/WareHouse/Areas/Suppier/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwcGllclxWaWV3c1xIb21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -146,6 +154,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/WareHouse/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/WareHouse/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/WareHouse/Views/Shared/Error.cshtml]
