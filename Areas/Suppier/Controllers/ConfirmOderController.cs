@@ -8,10 +8,12 @@ using Microsoft.Extensions.Logging;
 using WareHouse.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient; // Thêm using này
+using WareHouse.Areas.Admin.Models; // Thêm using này
 
 namespace WareHouse.Areas.Suppier.Controllers
 {
     [Area("Suppier")]
+    [RoleAuthorize(0)]
     public class ConfirmOderController : Controller
     {
         private readonly AppDbContext _db;
@@ -25,13 +27,17 @@ namespace WareHouse.Areas.Suppier.Controllers
 
         public IActionResult Index()
         {
-            // Giả sử supplier id = 1, thực tế lấy từ đăng nhập
-            int supplierId = 1;
+            int? supplierId = HttpContext.Session.GetInt32("idSupplier");
+            if (supplierId == null)
+            {
+                // Handle missing session (not logged in)
+                return RedirectToAction("Index", "Login", new { area = "" });
+            }
             var orders = _db.Orders
                 .Include(o => o.Suppliers)
                 .Include(o => o.DetailOrders)
                     .ThenInclude(d => d.Products)
-                .Where(o => o.Suppliers.IdSupplier == supplierId)
+                .Where(o => o.Suppliers.IdSupplier == supplierId.Value)
                 .OrderByDescending(o => o.OrderDate)
                 .ToList();
             return View(orders);

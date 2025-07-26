@@ -11,6 +11,7 @@ using WareHouse.Models;
 namespace WareHouse.Areas.Staff.Controllers
 {
     [Area("Staff")]
+    [RoleAuthorize(4,5)]
     public class ViewTimeSheetController : Controller
     {
         private readonly AppDbContext _db;
@@ -28,9 +29,15 @@ namespace WareHouse.Areas.Staff.Controllers
             int m = month ?? now.Month;
             int y = year ?? now.Year;
 
-            var employees = _db.Users.Where(u => u.IdUser == 7).ToList();
+            int? userId = HttpContext.Session.GetInt32("idUser");
+            if (userId == null)
+            {
+                // Handle missing session (not logged in)
+                return RedirectToAction("Index", "Login", new { area = "" });
+            }
+            var employees = _db.Users.Where(u => u.IdUser == userId.Value).ToList();
             var timesheets = _db.TimeSheets
-                .Where(t => t.Users != null && t.Users.IdUser == 7 && t.Date.Month == m && t.Date.Year == y)
+                .Where(t => t.Users != null && t.Users.IdUser == userId.Value && t.Date.Month == m && t.Date.Year == y)
                 .ToList();
 
             var viewModel = new TimeKeepingVM

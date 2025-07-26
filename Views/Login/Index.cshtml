@@ -38,6 +38,9 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary w-100 mt-2">Đăng nhập</button>
+            <div class="text-center mt-2">
+                <a href="@Url.Action("ForgotPassword", "Login")">Quên mật khẩu?</a>
+            </div>
         </form>
         @if (ViewBag.Error != null)
         {

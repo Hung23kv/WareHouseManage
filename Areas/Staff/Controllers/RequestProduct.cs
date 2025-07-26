@@ -14,6 +14,7 @@ using WareHouse.Helpers;
 namespace WareHouse.Areas.Staff.Controllers
 {
     [Area("Staff")]
+    [RoleAuthorize(4,5)]
     public class RequestProductController : Controller
     {
         private readonly AppDbContext _db;
@@ -143,8 +144,14 @@ namespace WareHouse.Areas.Staff.Controllers
         public IActionResult ConfirmRequest(IFormCollection f)
         {
             var listRequestProduct = GetRequestProduct();
+            int? userId = HttpContext.Session.GetInt32("idUser");
+            if (userId == null)
+            {
+                // Handle missing session (not logged in)
+                return RedirectToAction("Index", "Login", new { area = "" });
+            }
             ItemRequest itemRequest = new ItemRequest();
-            itemRequest.Users = _db.Users.FirstOrDefault(u => u.IdUser == 8);
+            itemRequest.Users = _db.Users.FirstOrDefault(u => u.IdUser == userId.Value);
             var RqDate = string.Format("{0:MM/dd/yyyy}", "2025-06-30");
             itemRequest.RequestDate = DateTime.Parse(RqDate);
             itemRequest.Status = "Chưa xác nhận";

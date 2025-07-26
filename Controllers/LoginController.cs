@@ -68,6 +68,19 @@ public class LoginController : Controller
         return View();
     }
 
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public IActionResult ForgotPassword()
+    {
+        // Hiển thị form quên mật khẩu (chưa xử lý logic gửi mail)
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

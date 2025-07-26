@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace WareHouse.Areas.Manager.Controllers
 {
     [Area("Manager")]
+    [RoleAuthorize(3)]
     public class ConfirmRequestController : Controller
     {
         private readonly AppDbContext _db;

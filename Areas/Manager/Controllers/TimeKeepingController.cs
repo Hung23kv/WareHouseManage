@@ -12,6 +12,7 @@ using WareHouse.Models;
 namespace WareHouse.Areas.Manager.Controllers
 {
     [Area("Manager")]
+    [RoleAuthorize(3)]
     public class TimeKeepingController : Controller
     {
         private readonly AppDbContext _db;

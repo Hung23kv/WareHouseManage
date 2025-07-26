@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace WareHouse.Areas.Manager.Controllers
 {
     [Area("Manager")]
+    [RoleAuthorize(3)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

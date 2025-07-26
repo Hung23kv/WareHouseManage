@@ -11,6 +11,7 @@ using WareHouse.Models;
 namespace WareHouse.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [RoleAuthorize(1)]
     public class ManageOrderController : Controller
     {
         private readonly AppDbContext _db;

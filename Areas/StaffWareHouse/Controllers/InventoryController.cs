@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace WareHouse.Areas.StaffWareHouse.Controllers
 {
     [Area("StaffWareHouse")]
+    [RoleAuthorize(2)]
     public class InventoryController : Controller
     {
         private readonly AppDbContext _db;

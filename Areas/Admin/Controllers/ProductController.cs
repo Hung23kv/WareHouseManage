@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace WareHouse.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [RoleAuthorize(1)]
     public class ProductController : Controller
     {
         private readonly AppDbContext _db;

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 namespace WareHouse.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [RoleAuthorize(1)]
     public class CategoryController : Controller
     {
         private readonly AppDbContext _db;

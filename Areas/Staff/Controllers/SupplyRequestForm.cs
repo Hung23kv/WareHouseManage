@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore; // Thêm dòng này ở đầu file nếu c
 namespace WareHouse.Areas.Staff.Controllers
 {
     [Area("Staff")]
+    [RoleAuthorize(4,5)]
     public class SupplyRequestFormController : Controller
     {
         private readonly AppDbContext _db;
@@ -23,10 +24,16 @@ namespace WareHouse.Areas.Staff.Controllers
 
         public IActionResult Index()
         {
-            // Lấy tất cả các ItemRequest của user id = 8 và status = "Chưa xác nhận", kèm theo các DetailRequest và mã sản phẩm
+            int? userId = HttpContext.Session.GetInt32("idUser");
+            if (userId == null)
+            {
+                // Handle missing session (not logged in)
+                return RedirectToAction("Index", "Login", new { area = "" });
+            }
+            // Lấy tất cả các ItemRequest của user id = userId và status = "Chưa xác nhận", kèm theo các DetailRequest và mã sản phẩm
             var supplyRequestForms = _db.ItemRequests
                 .Include(ir => ir.Users) 
-                .Where(ir => ir.Users.IdUser == 8 && ir.Status == "Chưa xác nhận")
+                .Where(ir => ir.Users.IdUser == userId.Value && ir.Status == "Chưa xác nhận")
                 .Select(ir => new {
                     ItemRequest = ir,   
                     DetailRequests = ir.DetailRequests.Select(dr => new {
