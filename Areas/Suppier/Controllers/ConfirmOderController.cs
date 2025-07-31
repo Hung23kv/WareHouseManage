@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using WareHouse.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient; // Thêm using này
-using WareHouse.Areas.Admin.Models; // Thêm using này
 
 namespace WareHouse.Areas.Suppier.Controllers
 {
